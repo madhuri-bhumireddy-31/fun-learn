@@ -1,0 +1,184 @@
+<!-- calc.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>🧮 Calculator - FunLearn</title>
+  <link rel="stylesheet" href="calc.css">
+  <style>
+    body {
+      font-family: 'Comic Sans MS', sans-serif;
+      background-color: #8c94e9;
+      text-align: center;
+      padding: 0;
+      margin: 0;
+    }
+
+    nav {
+      background-color: #283593;
+      padding: 10px;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      padding: 0;
+      margin: 0;
+    }
+
+    nav li {
+      margin: 0 10px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #e8ede6;
+      font-weight: bold;
+      padding: 6px 12px;
+      border-radius: 8px;
+      transition: background 0.3s;
+    }
+
+    nav a:hover {
+      background-color: #6570e1;
+    }
+
+     /* Responsive Navbar */
+ @media (max-width: 600px) {
+    nav ul {
+      flex-direction: column;
+      align-items: center;
+    }
+    nav ul li {
+      margin: 5px 0;
+    }
+  }
+    .title {
+      font-size: 2rem;
+      color: #eff3ec;
+      margin-top: 20px;
+    }
+
+    .calculator {
+      margin: 20px auto;
+      width: 300px;
+      background-color: #fff;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    }
+
+    #display {
+      width: 90%;
+      padding: 10px;
+      font-size: 1.2rem;
+      margin-bottom: 10px;
+      text-align: right;
+    }
+
+    .buttons {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+    }
+
+    .buttons button {
+      padding: 15px;
+      font-size: 1.2rem;
+      border: none;
+      border-radius: 6px;
+      background-color: #edf0ea;
+      cursor: pointer;
+      transition: background-color 0.2s;
+    }
+
+    .buttons button:hover {
+      background-color: #eef0ee;
+    }
+  </style>
+</head>
+<body>
+  <nav>
+    <ul>
+      <li><a href="index.html">🏠 Home</a></li>
+      <li><a href="alphabet.html">🔤 Alphabet</a></li>
+      <li><a href="numbers.html">🔢 Numbers</a></li>
+      <li><a href="quiz.html">🧠 Quiz</a></li>
+      <li><a href="calc.html">🧮 Calculator</a></li>
+      <li><a href="game.html">🎯 Game</a></li>
+      <li><a href="contact.html">📞 Contact Us</a></li>
+      <li><a href="login.html">🔓 Logout</a></li>
+    </ul>
+  </nav>
+
+  <h1 class="title">🧮 Simple Calculator</h1>
+  <div class="calculator">
+    <input type="text" id="display" readonly>
+    <div class="buttons">
+      <button>7</button><button>8</button><button>9</button><button>/</button>
+      <button>4</button><button>5</button><button>6</button><button>*</button>
+      <button>1</button><button>2</button><button>3</button><button>-</button>
+      <button>0</button><button>.</button><button>=</button><button>+</button>
+      <button id="clear">C</button>
+    </div>
+  </div>
+
+<script> 
+let firstNumber = "";
+let secondNumber = "";
+let operator = "";
+let S = false;
+
+const display = document.getElementById("display");
+const buttons = document.querySelectorAll(".buttons button");
+const clear = document.getElementById("clear");
+
+buttons.forEach(button => {
+  button.addEventListener("click", () => {
+    const value = button.textContent;
+    //checks if it's a number or a decimal point
+    if (!isNaN(value) || value === ".") {
+      if (!S) {
+        firstNumber += value;
+        display.value = firstNumber;
+      } else {
+        secondNumber += value;
+        display.value = secondNumber;
+      }
+    } 
+    else if (["+", "-", "*", "/"].includes(value)) {
+      operator = value;
+      S = true;
+    } 
+    else if (value === "=") {
+      let result = 0;
+      const num1 = parseFloat(firstNumber);
+      const num2 = parseFloat(secondNumber);
+
+      if (operator === "+") result = num1 + num2;
+      else if (operator === "-") result = num1 - num2;
+      else if (operator === "*") result = num1 * num2;
+      else if (operator === "/") result = num2 !== 0 ? num1 / num2 : "Error";
+
+      display.value = result;
+      firstNumber = result.toString();
+      secondNumber = "";
+      S = false;
+      operator = "";
+    }
+  });
+});
+
+clear.addEventListener("click", () => {
+  firstNumber = "";
+  secondNumber = "";
+  operator = "";
+  S = false;
+  display.value = "";
+});
+
+</script>
+</body>
+</html>

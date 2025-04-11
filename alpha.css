@@ -1,0 +1,117 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+  }
+body{
+  background-color: #E3F2FD;
+}
+
+/* Navbar Styling */
+nav {
+  background-color: #1565C0;
+  padding: 10px;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+}
+
+nav li {
+  margin: 0 10px;
+}
+
+nav a {
+  text-decoration: none;
+  color: #e8ede6;
+  font-weight: bold;
+  padding: 6px 12px;
+  border-radius: 8px;
+  transition: background 0.3s;
+}
+
+nav a:hover {
+ 
+   background-color: #3d94d3;
+}
+  
+ 
+/* home  container style */
+#container
+{ 
+    position: absolute;
+    top: 10rem; 
+    text-align: center;   
+}
+#container h1{
+    font-size: 60px;
+}
+#container p{
+    font-size: 40px;
+}
+
+ /* Responsive Navbar */
+ @media (max-width: 600px) {
+    nav ul {
+      flex-direction: column;
+      align-items: center;
+    }
+    nav ul li {
+      margin: 5px 0;
+    }
+  }
+  
+  
+
+  /* Alphabets cotainer */
+.a-container{
+   padding: 3rem;
+}
+ 
+.a-head {
+  font-size: 6vw; /* Responsive font size */
+  text-align: center;
+  color: #333;
+}
+
+.a-para {
+  font-size: 4vw; /* Responsive font size */
+  text-align: center;
+  color: #555;
+  margin-bottom: 20px;
+}
+
+@media (min-width: 768px) {
+  .a-head {
+    font-size: 3rem;
+  }
+  .a-para {
+    font-size: 1.5rem;
+  }
+}
+
+/* Letter Button Styling */
+
+.letter {
+  font-size: 30px;
+  padding: 10px 20px;
+  margin: 10px;
+  background-color: #f0f0f0;
+  border: 2px solid #ccc;
+  border-radius: 10px;
+  display: inline-block;
+  cursor: pointer;
+  align-items: center;
+  text-align: center;
+  min-width: 100px;
+  min-height: 80px;
+}
+.a-container{
+  padding: 5rem ;
+}
+
+

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        body{
+            font-family: 'Comic Sans MS', sans-serif;
+            text-align: center;
+            font-size: 18px;
+            background-color: #fceabb;
+        }
+        nav {
+      background-color: #fabb00;
+      padding: 10px;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      padding: 0;
+      margin: 0;
+    }
+
+    nav li {
+      margin: 0 10px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #f6f4f3;
+      font-weight: bold;
+      padding: 6px 12px;
+      border-radius: 8px;
+      transition: background 0.3s;
+    }
+
+    nav a:hover {
+      background-color: #fdd14d;
+    }
+
+        /* Responsive Navbar */
+ @media (max-width: 600px) {
+    nav ul {
+      flex-direction: column;
+      align-items: center;
+    }
+    nav ul li {
+      margin: 5px 0;
+    }
+  }
+
+        #gameContainer{
+            position:relative ;
+            height: 350px;
+            width: 600px;
+            border: 2px solid black;
+            margin: auto;
+        }
+        #box{
+            position:absolute;
+            height: 50px;
+            width: 50px;
+           background-color: #fabb00;
+            cursor: pointer;
+        }
+        button{
+            background-color: #c29b25;
+            color: #f6f4f3;
+            font-size: 18px;
+            padding: 5px;
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <ul>
+          <li><a href="index.html">🏠 Home</a></li>
+          <li><a href="alphabet.html">🔤 Alphabet</a></li>
+          <li><a href="numbers.html">🔢 Numbers</a></li>
+          <li><a href="quiz.html">🧠 Quiz</a></li>
+          <li><a href="calc.html">🧮 Calculator</a></li>
+          <li><a href="game.html">🎯 Game</a></li>
+          <li><a href="contact.html">📞 Contact Us</a></li>
+          <li><a href="login.html">🔓 Logout</a></li>
+        </ul>
+      </nav>
+    <h1>Click the Box Game</h1>
+    <p>Click the red box as many times as you can in 10 seconds!</p>
+    <p><span id="score">Score</span></p>
+    <button onclick="Start()">Start Game</button><br><br>
+    <div id="gameContainer">
+        <div id="box" onclick="increaseScore()"></div>
+    </div>
+</body>
+<script>
+let score = 0;
+let time = 10;
+let game = false;
+
+//  Start the game
+const Start = () => {
+    score = 0;
+    time = 10;
+    game = true;
+    document.getElementById("score").textContent = score; // Reset score on screen
+    
+
+    let timer = setInterval(() => {
+        time--;
+        if (time <= 0) {
+            clearInterval(timer);
+            game = false;
+            alert("Time's up! Your final score is " + score);
+        }
+    }, 1000);
+};
+
+//  Increase score when box is clicked
+const increaseScore = () => {
+    if (game) {
+        score++;
+        document.getElementById("score").textContent = score;
+        move();
+    }
+};
+
+//  Move the box randomly within the container
+const move = () => {
+    let box = document.getElementById("box");
+    let container = document.getElementById("gameContainer");
+
+    let maxX = container.clientWidth - box.clientWidth;
+    let maxY = container.clientHeight - box.clientHeight;
+
+    let randomX = Math.floor(Math.random() * maxX);
+    let randomY = Math.floor(Math.random() * maxY);
+
+    box.style.left = randomX + "px";
+    box.style.top = randomY + "px";
+};
+
+</script>
+</html>

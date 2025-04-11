@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Numbers Fun Facts</title>
+  <style>
+    nav {
+      background-color: #4CAF50;
+      padding: 10px;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      padding: 0;
+      margin: 0;
+    }
+
+    nav li {
+      margin: 0 10px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #e8ede6;
+      font-weight: bold;
+      padding: 6px 12px;
+      border-radius: 8px;
+      transition: background 0.3s;
+    }
+
+    nav a:hover {
+      background-color: #417e47;
+    }
+
+      /* Responsive Navbar */
+ @media (max-width: 600px) {
+    nav ul {
+      flex-direction: column;
+      align-items: center;
+    }
+    nav ul li {
+      margin: 5px 0;
+    }
+  }
+
+    body {
+      
+      text-align: center;
+      font-family: Arial;
+      background-color: #E8F5E9;
+    }
+    h1 {
+      padding-top: 5rem;
+      color: #444;
+    }
+    button {
+      font-size: 30px;
+      padding: 30px 30px;
+      margin: 8px;
+      border-radius: 8px;
+      border: none;
+      background-color: #4caf50;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    #fact {
+      margin-top: 20px;
+      font-size: 30px;
+      color: #222;
+      font-weight: bolder;
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <ul>
+      <li><a href="index.html">🏠 Home</a></li>
+      <li><a href="alphabet.html">🔤 Alphabet</a></li>
+      <li><a href="numbers.html">🔢 Numbers</a></li>
+      <li><a href="quiz.html">🧠 Quiz</a></li>
+      <li><a href="calc.html">🧮 Calculator</a></li>
+      <li><a href="game.html">🎯 Game</a></li>
+      <li><a href="contact.html">📞 Contact Us</a></li>
+      <li><a href="login.html">🔓 Logout</a></li>
+    </ul>
+  </nav>
+
+  <h1>Click a Number to Get a Fun Fact!</h1>
+
+  <!-- Number Buttons -->
+  <div>
+    <button onclick="getFact(1)">1</button>
+    <button onclick="getFact(2)">2</button>
+    <button onclick="getFact(3)">3</button>
+    <button onclick="getFact(4)">4</button>
+    <button onclick="getFact(5)">5</button>
+    <button onclick="getFact(6)">6</button>
+    <button onclick="getFact(7)">7</button>
+    <button onclick="getFact(8)">8</button>
+    <button onclick="getFact(9)">9</button>
+    <button onclick="getFact(10)">10</button>
+  </div>
+  <!-- Display Fact Here -->
+  <p id="fact">Fun fact will appear here!</p>
+  <script>
+    function getFact(number) {
+      // Using Fetch API to get number fact
+      fetch(`http://numbersapi.com/${number}`)
+        .then(response => response.text())
+        .then(fact => {
+          document.getElementById("fact").innerText = fact;
+        })
+        .catch(error => {
+          document.getElementById("fact").innerText = 
+          "Sorry, something went wrong!";
+          console.log(error);
+        });
+    }
+
+  </script>
+
+</body>
+</html>

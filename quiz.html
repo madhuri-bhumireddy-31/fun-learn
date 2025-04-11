@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>🧠 Kids Quiz</title>
+  <style>
+    body {
+      font-family: 'Comic Sans MS', cursive;
+      background-color: #FCE4EC;
+      text-align: center;
+      padding: 0;
+    }
+    nav {
+      background-color: #E91E63;
+      padding: 10px;
+    }
+
+    nav ul {
+      list-style: none;
+      display: flex;
+      justify-content: center;
+      padding: 0;
+      margin: 0;
+    }
+
+    nav li {
+      margin: 0 10px;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: #f6f4f3;
+      font-weight: bold;
+      padding: 6px 12px;
+      border-radius: 8px;
+      transition: background 0.3s;
+    }
+
+    nav a:hover {
+      background-color: #af1f71;
+    }
+
+    h1 {
+      margin-top: 7rem;
+      margin-bottom: 2rem;
+      color: #ff4081;
+    }
+
+    .options button, .utils button {
+      background-color: #fff176;
+      border: none;
+      padding: 10px 20px;
+      margin: 10px;
+      font-size: 1.1rem;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .options button:hover, .utils button:hover {
+      background-color: #ffd54f;
+    }
+
+    .result {
+      font-size: 1.3rem;
+      color: green;
+      margin-top: 20px;
+    }
+
+    .utils {
+      margin-top: 30px;
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <ul>
+      <li><a href="index.html">🏠 Home</a></li>
+      <li><a href="alphabet.html">🔤 Alphabet</a></li>
+      <li><a href="numbers.html">🔢 Numbers</a></li>
+      <li><a href="quiz.html">🧠 Quiz</a></li>
+      <li><a href="calc.html">🧮 Calculator</a></li>
+      <li><a href="game.html">🎯 Game</a></li>
+      <li><a href="contact.html">📞 Contact Us</a></li>
+      <li><a href="login.html">🔓 Logout</a></li>
+    </ul>
+  </nav>
+
+  <h1>🧠 Fun Quiz for Kids</h1>
+  <div class="last-score" id="lastScore"></div>
+  <div class="question" id="question"></div>
+  <div class="options" id="options"></div>
+  <div class="result" id="result"></div>
+
+  <!-- Utility Buttons for bind and apply -->
+  <div class="utils">
+    <button id="showQBtn">Show Current Question</button>
+    <button id="shareResultBtn">Share Result</button>
+  </div>
+
+  <script>
+    class Question {
+      constructor(text, options, answer) {
+        this.text = text;
+        this.options = options;
+        this.answer = answer;
+      }
+
+      isCorrect(ans) {
+        return this.answer === ans;
+      }
+    }
+
+    //  Inherited class + polymorphism
+    class Emoji extends Question {
+      constructor(text, options, answer, emoji) {
+        super(text, options, answer);
+        this.emoji = emoji;
+      }
+
+      isCorrect(ans) {
+        console.log("Checking answer for" + this.emoji);
+        return super.isCorrect(ans);
+      }
+    }
+
+    // using Encapsulation
+    class QuizGame {
+      #score = 0;
+      #current = 0;
+
+      constructor(questions) {
+        this.questions = questions;
+      }
+
+      getCurrentQ() {
+        return this.questions[this.#current];
+      }
+
+      checkAnswer(answer) {
+        if (this.getCurrentQ().isCorrect(answer)) {
+          this.#score++;
+        }
+        this.#current++;
+      }
+
+      isEnded() {
+        return this.#current >= this.questions.length;
+      }
+
+      getScore() {
+        return this.#score;
+      }
+
+      getTotalQuestions() {
+        return this.questions.length;
+      }
+    }
+
+    //  Quiz Data
+    const quiz = [
+      new Emoji("🍎 What color is an apple?", ["Red", "Blue", "Yellow"], "Red", "🍎"),
+      new Emoji("🐶 Which animal barks?", ["Cat", "Dog", "Cow"], "Dog", "🐶"),
+      new Emoji("☀️ What gives us light during the day?", ["Moon", "Bulb", "Sun"], "Sun", "☀️")
+    ];
+
+    const game = new QuizGame(quiz);
+
+    const questionEl = document.getElementById("question");
+    const optionsEl = document.getElementById("options");
+    const resultEl = document.getElementById("result");
+    const lastScoreEl = document.getElementById("lastScore");
+
+   
+    const savedScore = localStorage.getItem("lastScore");
+    if (savedScore !== null) {
+      lastScoreEl.textContent = `⭐ Your Last Score: ${savedScore} / ${quiz.length}`;
+    }
+
+    
+    function loadQuestion() {
+      if (game.isEnded()) {
+        showResult();
+      } else {
+        const q = game.getCurrentQ();
+        questionEl.textContent = q.text;
+        optionsEl.innerHTML = "";
+        q.options.forEach(option => {
+          const btn = document.createElement("button");
+          btn.textContent = option;
+          btn.onclick = () => {
+            game.checkAnswer(option);
+            loadQuestion();
+          };
+          optionsEl.appendChild(btn);
+        });
+      }
+    }
+
+    
+    function showResult() {
+      questionEl.textContent = "🎉 Quiz Completed!";
+      optionsEl.innerHTML = "";
+      const score = game.getScore();
+      resultEl.textContent = `Your Score: ${score} / ${game.getTotalQuestions()}`;
+      localStorage.setItem("lastScore", score);
+    }
+
+    
+    loadQuestion();
+
+    // bind 
+    function showCurrentQuestion() {
+      alert("Current Question is: " + this.getCurrentQ().text);
+    }
+    const ShowQuestion = showCurrentQuestion.bind(game);
+    document.getElementById("showQBtn").addEventListener("click", ShowQuestion);
+
+    // apply
+    function shareResult(name, date) {
+      alert(`${name} scored ${this.getScore()} out of ${this.getTotalQuestions()} on ${date}`);
+    }
+
+    document.getElementById("shareResultBtn").addEventListener("click", () => {
+      shareResult.apply(game, ["Madhuri", new Date().toLocaleDateString()]);
+    });
+  </script>
+
+</body>
+</html>
